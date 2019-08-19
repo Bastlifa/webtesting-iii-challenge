@@ -33,19 +33,14 @@ describe('<Display />', () =>
     })
     it('is red-led if closed or locked', () =>
     {
-        let { getByTestId } = render(<Display locked={false} closed={true} />)
-        expect(getByTestId("display-lock").classList.contains("red-led"))
+        let { getByTestId } = render(<Display locked={true} closed={true} />)
+        expect(getByTestId("display-lock").className.includes("red-led")).toBeTruthy()
+        expect(getByTestId("display-close").className.includes("red-led")).toBeTruthy()
     })
-    it('is red if locked and closed', () =>
+    it('is green if open/unlocked', () =>
     {
         let { getByTestId } = render(<Display locked={false} closed={false} />)
-        expect(getByTestId("display-lock").classList.contains("red-led"))
-        expect(getByTestId("display-close").classList.contains("red-led"))
+        expect(getByTestId("display-lock").className.includes("green-led")).toBeTruthy()
+        expect(getByTestId("display-close").className.includes("green-led")).toBeTruthy()
     })
-    it('is red if closed', () =>
-    {
-        let { getByTestId } = render(<Display locked={true} closed={false} />)
-        expect(getByTestId("display-close").classList.contains("red-led"))
-    })
-    //TODO: test for green
 })

@@ -38,20 +38,16 @@ describe('<Controls />', () =>
         const { getByTestId, queryByText } = render(<Dashboard />)
         const openCloseBtn = getByTestId("open-close-btn")
         const lockUnlockBtn = getByTestId("lock-unlock-btn")
+
         expect(queryByText(/Close gate/i)).toBeTruthy()
         fireEvent.click(openCloseBtn)
         expect(queryByText(/Close gate/i)).toBeFalsy()
-        // expect(queryByText(/open gate/i)).toBeTruthy()
-
+        expect(queryByText(/open gate/i)).toBeTruthy()
         
-    })
-    it('provides buttons to toggle the closed and locked states', () =>
-    {
-        
-    })
-    it('provides buttons to toggle the closed and locked states', () =>
-    {
-        
+        expect(queryByText(/Lock gate/i)).toBeTruthy()
+        fireEvent.click(lockUnlockBtn)
+        expect(queryByText("Lock Gate")).toBeFalsy()
+        expect(queryByText("Unlock Gate")).toBeTruthy()
     })
 })
 
