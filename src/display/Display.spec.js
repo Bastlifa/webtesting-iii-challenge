@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {render, fireEvent} from '@testing-library/react'
+import {render, fireEvent, getByTestId} from '@testing-library/react'
 import Display from './Display'
 
 describe('<Display />', () =>
@@ -9,6 +9,43 @@ describe('<Display />', () =>
     {
         const { queryByText } = render(<Display locked={true} closed={false} />)
         expect(queryByText(/locked/i)).toBeTruthy()
+        expect(queryByText(/open/i)).toBeTruthy()
+    })
+    it('displays \'Closed\' when the closed prop is true', () =>
+    {
+        const { queryByText } = render(<Display locked={true} closed={true} />)
         expect(queryByText(/open/i)).toBeFalsy()
     })
+    it('displays \'Open\' when the closed prop is false', () =>
+    {
+        const { queryByText } = render(<Display locked={true} closed={false} />)
+        expect(queryByText(/open/i)).toBeTruthy()
+    })
+    it('displays \'Locked\' when the locked prop is true', () =>
+    {
+        const { queryByText } = render(<Display locked={true} closed={true} />)
+        expect(queryByText(/locked/i)).toBeTruthy()
+    })
+    it('doesn\'t display \'Locked\' when the locked prop is false', () =>
+    {
+        const { queryByText } = render(<Display locked={false} closed={true} />)
+        expect(queryByText(/unlocked/i)).toBeTruthy()
+    })
+    it('is red-led if closed or locked', () =>
+    {
+        let { getByTestId } = render(<Display locked={false} closed={true} />)
+        expect(getByTestId("display-lock").classList.contains("red-led"))
+    })
+    it('is red if locked and closed', () =>
+    {
+        let { getByTestId } = render(<Display locked={false} closed={false} />)
+        expect(getByTestId("display-lock").classList.contains("red-led"))
+        expect(getByTestId("display-close").classList.contains("red-led"))
+    })
+    it('is red if closed', () =>
+    {
+        let { getByTestId } = render(<Display locked={true} closed={false} />)
+        expect(getByTestId("display-close").classList.contains("red-led"))
+    })
+    //TODO: test for green
 })
